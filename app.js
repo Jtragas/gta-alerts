@@ -76,14 +76,27 @@ const gtaCenter = [43.6532, -79.3832];
 
 const map = L.map("map", {
   zoomControl: true,
-  scrollWheelZoom: false
-}).setView(gtaCenter, 11);
+  scrollWheelZoom: false,
+  preferCanvas: true
+}).setView(gtaCenter, 10);
 
-L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  maxZoom: 19,
-  crossOrigin: true,
-  attribution: "&copy; OpenStreetMap contributors"
-}).addTo(map);
+// Light professional map tiles.
+// The error tile prevents ugly white gaps if a tile fails to load.
+const errorTileSvg = encodeURIComponent(`
+  <svg xmlns="http://www.w3.org/2000/svg" width="256" height="256">
+    <rect width="256" height="256" fill="#e8eef6"/>
+    <path d="M0 128h256M128 0v256" stroke="#d0dae8" stroke-width="1"/>
+  </svg>
+`);
+
+const baseLayer = L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png", {
+  subdomains: "abcd",
+  maxZoom: 20,
+  errorTileUrl: `data:image/svg+xml;charset=UTF-8,${errorTileSvg}`,
+  attribution: "&copy; OpenStreetMap contributors &copy; CARTO"
+});
+
+baseLayer.addTo(map);
 
 let markersById = new Map();
 let currentFilter = "all";
@@ -126,6 +139,13 @@ function getFilteredIncidents() {
     : sampleIncidents.filter(item => item.type === currentFilter);
 }
 
+function forceMapResize() {
+  // Leaflet sometimes needs a resize after a GitHub Pages/browser layout paint.
+  setTimeout(() => map.invalidateSize(true), 50);
+  setTimeout(() => map.invalidateSize(true), 350);
+  setTimeout(() => map.invalidateSize(true), 900);
+}
+
 function renderMap() {
   markersById.forEach(marker => map.removeLayer(marker));
   markersById = new Map();
@@ -143,14 +163,14 @@ function renderMap() {
 
   if (filtered.length > 1) {
     const group = L.featureGroup(Array.from(markersById.values()));
-    map.fitBounds(group.getBounds().pad(0.18), { maxZoom: 13 });
+    map.fitBounds(group.getBounds().pad(0.18), { maxZoom: 12 });
   } else if (filtered.length === 1) {
     map.setView([filtered[0].lat, filtered[0].lng], 13);
   } else {
-    map.setView(gtaCenter, 11);
+    map.setView(gtaCenter, 10);
   }
 
-  setTimeout(() => map.invalidateSize(), 150);
+  forceMapResize();
 }
 
 function renderList() {
@@ -222,7 +242,8 @@ function selectIncident(id, openPopup = false) {
 
   const marker = markersById.get(id);
   if (marker) {
-    map.setView([item.lat, item.lng], 14);
+    map.setView([item.lat, item.lng], 13);
+    forceMapResize();
     if (openPopup) {
       marker.openPopup();
     }
@@ -247,9 +268,10 @@ document.querySelectorAll(".filter").forEach(button => {
 
 window.addEventListener("load", () => {
   renderAll();
-  setTimeout(() => map.invalidateSize(), 300);
+  forceMapResize();
 });
 
-window.addEventListener("resize", () => {
-  map.invalidateSize();
-});
+window.addEventListener("resize", forceMapResize);
+
+// One more resize after browser restores scroll/hash position.
+setTimeout(forceMapResize, 1500);
