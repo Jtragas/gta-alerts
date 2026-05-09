@@ -7,6 +7,7 @@
   <meta name="description" content="Public safety, transit, road, weather, and community alerts for the Greater Toronto Area." />
 
   <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://tile.openstreetmap.org">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIINfQ7QFecgNUl3DkGpqD3e7MPcR6ozT58="
     crossorigin="" />
@@ -14,48 +15,48 @@
 </head>
 
 <body>
-  <header class="hero">
-    <nav class="nav">
-      <a class="brand" href="#top" aria-label="GTA Alerts home">
-        <span class="brand-mark">!</span>
-        <span>GTA Alerts</span>
-      </a>
-      <div class="nav-links">
-        <a href="#map-section">Live Map</a>
-        <a href="#features">Features</a>
-        <a href="#signup">Updates</a>
-      </div>
-    </nav>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="GTA Alerts home">
+      <span class="brand-icon">!</span>
+      <span>
+        <strong>GTA Alerts</strong>
+        <small>Greater Toronto Area</small>
+      </span>
+    </a>
 
-    <section id="top" class="hero-content">
-      <p class="eyebrow">Greater Toronto Area</p>
-      <h1>Public safety, transit, road, weather, and community alerts in one place.</h1>
-      <p class="subtitle">
-        GTA Alerts is being built to help people stay aware while walking, driving, commuting,
-        or checking places they care about.
-      </p>
-      <div class="hero-actions">
-        <a class="button primary" href="#map-section">View Demo Map</a>
-        <a class="button secondary" href="#signup">Get Launch Updates</a>
-      </div>
-      <p class="notice">
-        Not an official emergency service. In an emergency, call 911.
-      </p>
-    </section>
+    <nav class="top-nav" aria-label="Main navigation">
+      <a href="#map-section">Live Map</a>
+      <a href="#features">Features</a>
+      <a href="#signup">Updates</a>
+    </nav>
   </header>
 
-  <main>
-    <section id="map-section" class="section map-section">
-      <div class="section-heading">
+  <main id="top">
+    <section class="intro">
+      <div>
         <p class="eyebrow">Demo MVP</p>
-        <h2>Live map concept</h2>
+        <h1>GTA public safety, transit, road, and weather alerts.</h1>
         <p>
-          This starter map uses sample alerts for now. Later, this can connect to public fire,
-          transit, road, weather, camera, and delayed police-call feeds.
+          A future Waze-style alert platform for the Greater Toronto Area.
+          This version is a demo with sample alerts.
         </p>
       </div>
+      <div class="intro-actions">
+        <a class="button primary" href="#map-section">Open Live Map</a>
+        <a class="button secondary" href="#signup">Get Updates</a>
+      </div>
+    </section>
 
-      <div class="controls" aria-label="Map filters">
+    <section id="map-section" class="map-section">
+      <div class="map-top">
+        <div>
+          <p class="eyebrow">Live map concept</p>
+          <h2>Recent GTA alerts</h2>
+        </div>
+        <p class="map-tip">Tip: the map no longer steals your page scroll. Use + / - to zoom.</p>
+      </div>
+
+      <div class="filter-row" aria-label="Map filters">
         <button class="filter active" data-filter="all">All</button>
         <button class="filter" data-filter="fire">Fire / Rescue</button>
         <button class="filter" data-filter="transit">TTC</button>
@@ -64,49 +65,67 @@
         <button class="filter" data-filter="community">Community</button>
       </div>
 
-      <div class="map-layout">
+      <div class="map-shell">
         <div id="map" role="application" aria-label="GTA Alerts demo map"></div>
 
-        <aside class="incident-panel">
-          <h3>Recent alerts</h3>
-          <div id="incident-list"></div>
+        <aside class="panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow small">Latest</p>
+              <h3>Recent alerts</h3>
+            </div>
+            <span id="alert-count" class="count-pill">0</span>
+          </div>
+
+          <div id="incident-list" class="incident-list"></div>
+
+          <div id="selected-alert" class="selected-alert">
+            <p class="empty-state">Click an alert card or map pin to see details here.</p>
+          </div>
         </aside>
       </div>
+
+      <p class="disclaimer">
+        GTA Alerts is not an official emergency service. Public data can be delayed, incomplete, filtered, or unavailable.
+        In an emergency, call 911.
+      </p>
     </section>
 
-    <section id="features" class="section features">
+    <section id="features" class="section">
       <div class="section-heading">
-        <p class="eyebrow">Product plan</p>
-        <h2>What GTA Alerts will do</h2>
+        <p class="eyebrow">Roadmap</p>
+        <h2>What GTA Alerts will become</h2>
       </div>
 
       <div class="feature-grid">
-        <article class="card">
+        <article class="feature-card">
+          <span class="feature-icon">◎</span>
           <h3>Custom alert zones</h3>
-          <p>Users can set a radius around home, school, work, current location, or a commute route.</p>
+          <p>Users can save home, school, work, family areas, or current location with their own radius.</p>
         </article>
-        <article class="card">
-          <h3>Official public feeds</h3>
-          <p>Fire, transit, roads, traffic cameras, weather, and delayed public police calls where available.</p>
-        </article>
-        <article class="card">
-          <h3>Waze-style reports</h3>
-          <p>Community reports can be marked unverified, verified, or confirmed by public data.</p>
-        </article>
-        <article class="card">
+        <article class="feature-card">
+          <span class="feature-icon">↗</span>
           <h3>Walking, driving, transit</h3>
-          <p>Different alert modes for pedestrians, drivers, transit riders, families, and city-wide watchers.</p>
+          <p>Different alert modes can show only the alerts that matter for the situation.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-icon">◉</span>
+          <h3>Public feeds</h3>
+          <p>Public fire, transit, road, weather, traffic-camera, and delayed police-call data where available.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-icon">✓</span>
+          <h3>Community reports</h3>
+          <p>Waze-style reports can be marked unverified, verified, or confirmed by public data.</p>
         </article>
       </div>
     </section>
 
     <section id="signup" class="section signup">
-      <div class="signup-box">
+      <div class="signup-card">
         <p class="eyebrow">Coming soon</p>
-        <h2>Get launch updates</h2>
-        <p>
-          For now, use this button to open an email. Later, this section can become a real signup form.
-        </p>
+        <h2>Get GTA Alerts launch updates</h2>
+        <p>This can become a real signup form later. For now, the button opens an email.</p>
         <a class="button primary" href="mailto:hello@gtaalerts.com?subject=GTA%20Alerts%20Launch%20Updates">
           Email GTA Alerts
         </a>
@@ -114,12 +133,8 @@
     </section>
   </main>
 
-  <footer class="footer">
-    <p>
-      GTA Alerts is not affiliated with Toronto Police, Toronto Fire, TTC, the City of Toronto,
-      Ontario 511, or any emergency service.
-    </p>
-    <p>Public data can be delayed, incomplete, filtered, or unavailable. In an emergency, call 911.</p>
+  <footer class="site-footer">
+    <p>Not affiliated with Toronto Police, Toronto Fire, TTC, the City of Toronto, Ontario 511, or any emergency service.</p>
   </footer>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"

@@ -1,34 +1,26 @@
-# GTA Alerts Starter Website
+# GTA Alerts
 
-This is a simple GitHub Pages starter site for GTAAlerts.com.
+Scroll-fix starter website for GTAAlerts.com.
 
-## What is included
+## What changed
 
-- `index.html` — homepage and map page
-- `styles.css` — design/styles
-- `app.js` — demo map + sample alerts
-- `CNAME` — custom domain for GitHub Pages
-- `.nojekyll` — helps GitHub Pages serve files normally
+- Map is closer to the top of the page.
+- Page uses a cleaner light design.
+- The map no longer grabs the mouse wheel scroll.
+- Recent alert cards are clickable.
+- Map pins are clickable.
+- Filters work.
 
-## How to use it
+## Upload
 
-1. Create a new GitHub repository named `gta-alerts`.
-2. Upload these files to the repo.
-3. Go to `Settings` -> `Pages`.
-4. Under `Build and deployment`, choose:
-   - Source: `Deploy from a branch`
-   - Branch: `main`
-   - Folder: `/root`
-5. Under `Custom domain`, enter:
+Upload these files to the root of the `Jtragas/gta-alerts` GitHub repo and replace the old files.
 
-```text
-GTAAlerts.com
-```
+## GitHub Pages
 
-6. Add the DNS records at your domain registrar.
-7. Wait for DNS to update.
-8. Turn on `Enforce HTTPS` inside GitHub Pages.
+Repo Settings -> Pages:
 
-## Safety disclaimer
-
-GTA Alerts is not an official emergency service. Public data can be delayed, incomplete, filtered, or unavailable. In an emergency, call 911.
+- Source: Deploy from a branch
+- Branch: main
+- Folder: /root
+- Custom domain: GTAAlerts.com
+- Enforce HTTPS: on, after DNS is ready
