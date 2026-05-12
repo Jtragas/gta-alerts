@@ -40,17 +40,31 @@ const seenBreakingIds = new Set(); // Deduplication
 
 // Priority keywords for breaking alerts
 const HIGH_PRIORITY_KEYWORDS = [
-    'escape', 'escaped', 'evacuation', 'shelter in place',
-    'shooting', 'stabbing', 'homicide', 'fatal collision',
-    'missing vulnerable', 'amber alert', 'lockdown',
-    'explosion', 'gas leak', 'hazardous materials',
-    'emergency alert', 'active shooter', 'bomb threat'
+    'escape', 'escaped', 'escapee', 'evacuation', 'evacuate', 'shelter in place',
+    'shooting', 'shot', 'stabbing', 'stabbed', 'homicide', 'murder', 'fatal', 'killed', 'dies', 'died', 'dead', 'death',
+    'missing vulnerable', 'missing person', 'missing child', 'amber alert', 'lockdown',
+    'explosion', 'explode', 'gas leak', 'hazardous materials', 'bomb', 'bomb threat',
+    'emergency alert', 'active shooter', 'gunman', 'armed', 'weapon',
+    'arrested', 'arrest', 'wanted', 'manhunt', 'suspect', 'fugitive', 'charged',
+    'child dead', 'toddler', 'infant', 'baby', 'kidnap', 'abduction',
+    'assault', 'attacked', 'violence', 'threat', 'robbery', 'carjacking',
+    'hit and run', 'pedestrian struck', 'serious injury', 'critical condition',
+    'fire alarm', 'structure fire', 'building fire', 'blaze'
 ];
 
 const MEDIUM_PRIORITY_KEYWORDS = [
-    'fire', 'road closed', 'subway suspended', 'major delay',
-    'police investigation', 'crash', 'collision', 'derailment',
-    'service disruption', 'power outage', 'water main break'
+    'fire', 'flames', 'smoke', 'burning',
+    'road closed', 'roads closed', 'closure', 'closed', 'blocked', 'shut down',
+    'subway suspended', 'line suspended', 'lrt', 'ttc', 'go train', 'transit',
+    'major delay', 'delays', 'service alert', 'cancelled', 'detour',
+    'police investigation', 'investigation', 'incident', 'scene',
+    'crash', 'collision', 'accident', 'derailment', 'derailed',
+    'service disruption', 'no service', 'suspended', 'outage',
+    'power outage', 'power out', 'blackout', 'hydro', 'electricity',
+    'water main break', 'water leak', 'flooding', 'flood',
+    'maintenance closure', 'construction', 'emergency services',
+    'police activity', 'emergency vehicles', '911 call', 'ems', 'ambulance',
+    'traffic alert', 'gridlock', 'congestion', 'lane closed'
 ];
 
 // Parse Toronto Fire XML Feed
